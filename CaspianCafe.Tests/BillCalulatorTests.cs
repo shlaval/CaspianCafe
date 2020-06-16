@@ -15,6 +15,32 @@ namespace CaspianCafe.Tests
         }
 
         [TestMethod]
+        public void BillCalculator_CalculateServiceCharge_Ok()
+        {
+            var billCalculator = new BillCalculator();
+
+            // All Drinks, no service charge
+            var menuItems1 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola" };
+            var charge1 = billCalculator.CalculateServiceCharge(menuItems1);
+            Assert.AreEqual(0.0D, charge1);
+
+            // Drinks plus cheese sandwich, 10% service charge
+            var menuItems2 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Cheese Sandwich" };
+            var charge2 = billCalculator.CalculateServiceCharge(menuItems2);
+            Assert.AreEqual(0.55D, charge2);
+
+            // Any steak sandwich, 20% service charge
+            var menuItems3 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Steak Sandwich" };
+            var charge3 = billCalculator.CalculateServiceCharge(menuItems3);
+            Assert.AreEqual(1.1D, charge3);
+
+            // Service charge capped at £20
+            var menuItems4 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Cheese Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich" };
+            var charge4 = billCalculator.CalculateServiceCharge(menuItems4);
+            Assert.AreEqual(20.0D, charge4);
+        }
+
+        [TestMethod]
         public void BillCalculator_CalculateBill_Ok()
         {
             var billCalculator = new BillCalculator();
@@ -22,12 +48,12 @@ namespace CaspianCafe.Tests
 
             var billAmount = billCalculator.CalculateBill(menuItems);
 
-            Assert.AreEqual(3.5D, billAmount);
+            Assert.AreEqual(3.85D, billAmount);
 
             menuItems = new string[] { "Cola", "Steak Sandwich" };
             billAmount = billCalculator.CalculateBill(menuItems);
 
-            Assert.AreEqual(5.0D, billAmount);
+            Assert.AreEqual(6.0D, billAmount);
         }
     }
 }

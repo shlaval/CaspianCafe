@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
+[assembly: InternalsVisibleTo("CaspianCafe.Tests")]
 namespace CaspianCafe.Logic
 {
     public class BillCalculator : IBillCalculator
@@ -30,7 +32,14 @@ namespace CaspianCafe.Logic
                 }
             }
 
-            return totalBill;
+            var serviceCharge = CalculateServiceCharge(menuItems);
+
+            return totalBill + serviceCharge;
+        }
+
+        internal double CalculateServiceCharge(string[] menuItems)
+        {
+            return 0.0D;
         }
     }
 }
