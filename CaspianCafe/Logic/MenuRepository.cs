@@ -10,7 +10,13 @@ namespace CaspianCafe.Logic
     {
         public IList<MenuItem> GetMenuItems()
         {
-            throw new NotImplementedException();
+            return new List<MenuItem>()
+            {
+                new MenuItem("Cola", true, 0.5D),
+                new MenuItem("Coffee", false, 1.0D),
+                new MenuItem("Cheese Sandwich", true, 2.0D),
+                new MenuItem("Steak Sandwich", false, 4.5D)
+            };
         }
     }
 }
