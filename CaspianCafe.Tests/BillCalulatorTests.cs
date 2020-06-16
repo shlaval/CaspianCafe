@@ -23,6 +23,11 @@ namespace CaspianCafe.Tests
             var billAmount = billCalculator.CalculateBill(menuItems);
 
             Assert.AreEqual(3.5D, billAmount);
+
+            menuItems = new string[] { "Cola", "Steak Sandwich" };
+            billAmount = billCalculator.CalculateBill(menuItems);
+
+            Assert.AreEqual(5.0D, billAmount);
         }
     }
 }
