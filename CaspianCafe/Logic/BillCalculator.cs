@@ -32,14 +32,31 @@ namespace CaspianCafe.Logic
                 }
             }
 
-            var serviceCharge = CalculateServiceCharge(menuItems);
+            var serviceCharge = CalculateServiceCharge(menuItems, totalBill);
 
             return totalBill + serviceCharge;
         }
 
-        internal double CalculateServiceCharge(string[] menuItems)
+        internal double CalculateServiceCharge(string[] menuItems, double total)
         {
-            return 0.0D;
+            var serviceCharge = 0.0D;
+
+            var allItems = menuRepository.GetMenuItems();
+
+            var anyFood = menuItems.Any(mi => !allItems.Single(i => i.Name == mi).IsDrink);
+            var anyHotFood = menuItems.Any(mi => !allItems.Single(i => i.Name == mi).IsDrink &&
+                                                 !allItems.Single(i => i.Name == mi).IsCold);
+
+            if(anyHotFood)
+            {
+                serviceCharge = total * 0.2D;
+            }
+            else if(anyFood)
+            {
+                serviceCharge = total * 0.1D;
+            }
+
+            return serviceCharge < 20.0D ? Math.Round(serviceCharge, 2) : 20.0D;
         }
     }
 }

@@ -11,12 +11,14 @@ namespace CaspianCafe.Tests
         {
             var name = "Cola";
             var isCold = true;
+            var isDrink = true;
             var price = 0.5D;
 
-            var menuItem = new MenuItem(name, isCold, price);
+            var menuItem = new MenuItem(name, isCold, isDrink, price);
 
             Assert.AreEqual(name, menuItem.Name);
             Assert.AreEqual(isCold, menuItem.IsCold);
+            Assert.AreEqual(isDrink, menuItem.IsDrink);
             Assert.AreEqual(price, menuItem.Price);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CaspianCafe.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace CaspianCafe.Tests
 {
@@ -21,22 +22,24 @@ namespace CaspianCafe.Tests
 
             // All Drinks, no service charge
             var menuItems1 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola" };
-            var charge1 = billCalculator.CalculateServiceCharge(menuItems1);
+            var charge1 = billCalculator.CalculateServiceCharge(menuItems1, 3.5D);
             Assert.AreEqual(0.0D, charge1);
 
             // Drinks plus cheese sandwich, 10% service charge
             var menuItems2 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Cheese Sandwich" };
-            var charge2 = billCalculator.CalculateServiceCharge(menuItems2);
+            var charge2 = billCalculator.CalculateServiceCharge(menuItems2, 5.5D);
             Assert.AreEqual(0.55D, charge2);
 
             // Any steak sandwich, 20% service charge
             var menuItems3 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Steak Sandwich" };
-            var charge3 = billCalculator.CalculateServiceCharge(menuItems3);
-            Assert.AreEqual(1.1D, charge3);
+            var charge3 = billCalculator.CalculateServiceCharge(menuItems3, 8.0D);
+            Assert.AreEqual(1.6D, charge3);
 
             // Service charge capped at £20
-            var menuItems4 = new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Cheese Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich" };
-            var charge4 = billCalculator.CalculateServiceCharge(menuItems4);
+            var menuItems4 = (new string[] { "Cola", "Coffee", "Cola", "Coffee", "Cola", "Cheese Sandwich" })
+                .Union(Enumerable.Repeat("Steak Sandwich", 40))
+                .ToArray();
+            var charge4 = billCalculator.CalculateServiceCharge(menuItems4, 185.5D);
             Assert.AreEqual(20.0D, charge4);
         }
 
